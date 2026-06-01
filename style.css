@@ -26,7 +26,6 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* Базовый вид закрытой карточки (рубашка синяя) */
 .card {
     background-color: #007bff; 
     cursor: pointer;
@@ -36,16 +35,14 @@ h1 {
 }
 
 .card:hover {
-    transform: scale(1.05); /* Эффект покачивания при наведении */
+    transform: scale(1.05); 
 }
 
-/* Когда карточка перевернута */
 .card.flipped {
     cursor: default;
     transform: scale(1);
 }
 
-/* Когда пара угадана (зеленая рамка и легкая прозрачность) */
 .card.matched {
     opacity: 0.6;
     cursor: default;
