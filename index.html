@@ -3,41 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Игра "Найди пару"</title>
+    <title>Игра Найди пару</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="game-container">
-        <div class="header-row">
-            <h1>Игра "Найди пару"</h1>
-            <button id="theme-toggle" class="btn-small">Темы</button>
-        </div>
-        
-        <div class="setup-container">
-            <div class="setup-row">
-                <label for="size-select">Сложность (размер):</label>
+        <header>
+            <h1>Игра Найди пару</h1>
+            <div class="controls-row">
+                <button id="theme-toggle" class="btn-icon" title="Сменить тему">🌓</button>
+                <button id="sound-toggle" class="btn-icon" title="Включить звук">🔇</button>
+                <button id="shop-btn" class="btn" style="background: #e67e22;">🛒 Магазин</button>
+            </div>
+        </header>
+
+        <div class="status-panel">
+            <div class="status-item">Размер: 
                 <select id="size-select">
-                    <option value="4">4 x 4 (16 карт)</option>
-                    <option value="6">6 x 6 (36 карт)</option>
+                    <option value="4">4 x 4</option>
+                    <option value="6">6 x 6</option>
+                    <option value="8">8 x 8</option>
                 </select>
+            </div>
+            <div class="status-item">Режим: 
+                <button id="hard-mode-btn" class="btn-hard locked" title="Выиграйте 1 любую игру для разблокировки">🔒 Обычный</button>
             </div>
         </div>
 
-        <div class="stats-container">
-            <div>Время: <span id="timer">00:00</span></div>
-            <div>Ходы: <span id="moves">0</span></div>
+        <div class="stats-grid">
+            <div class="stat-box">Время: <span id="timer">00:00</span><span id="time-limit"></span></div>
+            <div class="stat-box">Ходы: <span id="moves">0</span><span id="moves-limit"></span></div>
+            <div class="stat-box">Рекорд: <span id="best-score">--:--</span></div>
         </div>
 
-        <div class="record-container">
-            Лучший результат: <span id="best-score">--:--</span>
+        <div id="combo-text" class="combo-banner"></div>
+
+        <div id="game-board" class="board"></div>
+
+        <div class="footer-controls">
+            <button id="restart-btn" class="btn-primary">Начать заново</button>
+            <div id="quote-box" class="quote-container"></div>
         </div>
-        
-        <div id="game-board" class="game-board"></div>
+    </div>
 
-        <button id="restart-btn">Начать игру</button>
+    <div id="shop-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🛒 Игровой Инвентарь</h2>
+                <button id="close-shop" class="close-btn">&times;</button>
+            </div>
+            
+            <div class="shop-tabs">
+                <button class="tab-btn active" data-target="cards-section">🃏 Наборы карт</button>
+                <button class="tab-btn" data-target="shirts-section">🎨 Рубашки</button>
+            </div>
 
-        <div id="quote-box" class="quote-box"></div>
+            <div class="shop-viewport">
+                <div class="shop-track">
+                    <section id="cards-section" class="shop-section">
+                        <h3>🃏 Наборы карточек</h3>
+                        <div class="items-row">
+                            <div class="shop-item active" data-type="pack" data-id="emoji">
+                                <div class="item-preview">😀🐱🍏</div>
+                                <div class="item-name">Классические Эмодзи</div>
+                                <div class="item-status">Выбрано</div>
+                            </div>
+                            <div class="shop-item" data-type="pack" data-id="minecraft">
+                                <div class="item-preview">💎🟩🧱</div>
+                                <div class="item-name">Крафт Набор</div>
+                                <div class="item-status">Доступно</div>
+                            </div>
+                            <div class="shop-item" data-type="pack" data-id="poker">
+                                <div class="item-preview">♠️♥️👑</div>
+                                <div class="item-name">Игральные Карты</div>
+                                <div class="item-status">Доступно</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="shirts-section" class="shop-section">
+                        <h3>🎨 Рубашки карт</h3>
+                        <div class="items-row">
+                            <div class="shop-item active" data-type="shirt" data-id="blue">
+                                <div class="item-preview shirt-preview blue-shirt"></div>
+                                <div class="item-name">Океанская синяя</div>
+                                <div class="item-status">Выбрано</div>
+                            </div>
+                            <div class="shop-item locked" id="red-shirt-item" data-type="shirt" data-id="red">
+                                <div class="item-preview shirt-preview red-shirt">🔒</div>
+                                <div class="item-name">Хардкорная красная</div>
+                                <div class="item-status">🏆 Нужна победа в Hard Mode</div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="shop-scrollbar-container">
+                <div id="shop-thumb" class="shop-scrollbar-thumb"></div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
