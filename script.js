@@ -1,112 +1,178 @@
-const cardColors = [
-    '#FF0000', '#FF0000',
-    '#00FF00', '#00FF00',
-    '#FFFF00', '#FFFF00',
-    '#FF00FF', '#FF00FF',
-    '#00FFFF', '#00FFFF',
-    '#800080', '#800080',
-    '#FFA500', '#FFA500',
-    '#000000', '#000000'
-];
+class MemoryGame {
+constructor() {
+this.themesArray = [
+'😀', '🐱', '🍏', '⚽', '🚗', '🚀', '🔥', '👑',
+'👻', '🍕', '💎', '🎨', '🎸', '👾', '🌵', '🐼',
+'🌍', '🍿', '💡', '🛸'
+ ];
 
-let chosenCards = [];
-let board = document.getElementById('game-board');
-let restartBtn = document.getElementById('restart-btn');
+this.board = document.getElementById('game-board');
+this.sizeSelect = document.getElementById('size-select');
+this.timerText = document.getElementById('timer');
+this.movesText = document.getElementById('moves');
+this.bestScoreText = document.getElementById('best-score');
+this.quoteBox = document.getElementById('quote-box');
 
-let timerText = document.getElementById('timer');
-let movesText = document.getElementById('moves');
+this.chosenCards = [];
+this.moves = 0;
+this.seconds = 0;
+this.timerInterval = null;
+this.isGameStarted = false;
 
-let moves = 0;
-let seconds = 0;
-let timerInterval = null;
-let isGameStarted = false;
-
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        let temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-    return array;
+this.initTheme();
+this.loadBestScore();
 }
 
-function updateTimer() {
-    seconds++;
-    let mins = Math.floor(seconds / 60);
-    let secs = seconds % 60;
-    timerText.innerText = 
-        (mins < 10 ? '0' + mins : mins) + ':' + (secs < 10 ? '0' + secs : secs);
+initTheme() {
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+document.getElementById('theme-toggle').addEventListener('click', () => {
+const currentTheme = document.documentElement.getAttribute('data-theme');
+const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+document.documentElement.setAttribute('data-theme', newTheme);
+localStorage.setItem('theme', newTheme);
+});
 }
 
-function resetStats() {
-    clearInterval(timerInterval);
-    seconds = 0;
-    moves = 0;
-    isGameStarted = false;
-    timerText.innerText = '00:00';
-    movesText.innerText = '0';
+shuffle(array) {
+for (let i = array.length - 1; i > 0; i--) {
+let j = Math.floor(Math.random() * (i + 1));
+[array[i], array[j]] = [array[j], array[i]];
+}
+return array;
 }
 
-function createBoard() {
-    board.innerHTML = '';
-    chosenCards = [];
-    resetStats();
-    
-    let shuffledColors = shuffle([...cardColors]);
-
-    for (let i = 0; i < shuffledColors.length; i++) {
-        let card = document.createElement('div');
-        card.classList.add('card');
-        card.dataset.color = shuffledColors[i]; 
-        card.addEventListener('click', flipCard);
-        board.appendChild(card);
-    }
+updateTimer() {
+this.seconds++;
+let mins = Math.floor(this.seconds / 60);
+let secs = this.seconds % 60;
+this.timerText.innerText =
+(mins < 10 ? '0' + mins : mins) + ':' + (secs < 10 ? '0' + secs : secs);
 }
 
-function flipCard() {
-    if (this.classList.contains('flipped') || this.classList.contains('matched') || chosenCards.length === 2) {
-        return;
-    }
-
-    if (!isGameStarted) {
-        isGameStarted = true;
-        timerInterval = setInterval(updateTimer, 1000);
-    }
-
-    this.style.backgroundColor = this.dataset.color;
-    this.classList.add('flipped');
-    chosenCards.push(this);
-
-    if (chosenCards.length === 2) {
-        moves++;
-        movesText.innerText = moves;
-        setTimeout(checkMatch, 600);
-    }
+resetStats() {
+clearInterval(this.timerInterval);
+this.seconds = 0;
+this.moves = 0;
+this.isGameStarted = false;
+this.timerText.innerText = '00:00';
+this.movesText.innerText = '0';
+this.quoteBox.innerText = '';
 }
 
-function checkMatch() {
-    let card1 = chosenCards[0];
-    let card2 = chosenCards[1];
-
-    if (card1.dataset.color === card2.dataset.color) {
-        card1.classList.add('matched');
-        card2.classList.add('matched');
-        
-        let allMatched = document.querySelectorAll('.card.matched').length === cardColors.length;
-        if (allMatched) {
-            clearInterval(timerInterval);
-            alert('Победа! Ходов: ' + moves + ', Время: ' + timerText.innerText);
-        }
-    } else {
-        card1.style.backgroundColor = '#007bff';
-        card2.style.backgroundColor = '#007bff';
-        card1.classList.remove('flipped');
-        card2.classList.remove('flipped');
-    }
-
-    chosenCards = [];
+loadBestScore() {
+const size = this.sizeSelect.value;
+const localRecord = localStorage.getItem(`best_score_${size}`);
+this.bestScoreText.innerText = localRecord ? localRecord : '--:--';
 }
 
-restartBtn.addEventListener('click', createBoard);
-createBoard();
+createBoard() {
+this.board.innerHTML = '';
+this.chosenCards = [];
+this.resetStats();
+this.loadBestScore();
+
+let size = parseInt(this.sizeSelect.value);
+let totalCards = size * size;
+let pairsCount = totalCards / 2;
+
+let selectedItems = this.themesArray.slice(0, pairsCount);
+let gameValues = [...selectedItems, ...selectedItems];
+let shuffledValues = this.shuffle(gameValues);
+
+this.board.style.gridTemplateColumns = `repeat(${size}, 1fr)`; this.board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
+for (let i = 0; i < shuffledValues.length; i++) {
+let card = document.createElement('div');
+card.classList.add('card');
+card.dataset.value = shuffledValues[i];
+card.dataset.index = i;
+card.innerText = shuffledValues[i];
+card.addEventListener('click', (e) => this.flipCard(e.target));
+this.board.appendChild(card);
+}
+}
+
+flipCard(cardElement) {
+if (cardElement.classList.contains('flipped') || cardElement.classList.contains('matched') || this.chosenCards.length === 2) {
+return;
+}
+
+if (!this.isGameStarted) {
+this.isGameStarted = true;
+this.timerInterval = setInterval(() => this.updateTimer(), 1000);
+}
+
+cardElement.classList.add('flipped');
+cardElement.style.color = 'var(--text-color)';
+this.chosenCards.push(cardElement);
+
+if (this.chosenCards.length === 2) {
+this.moves++;
+this.movesText.innerText = this.moves;
+setTimeout(() => this.checkMatch(), 600);
+}
+}
+
+checkMatch() {
+let [card1, card2] = this.chosenCards;
+
+if (card1.dataset.value === card2.dataset.value && card1.dataset.index !== card2.dataset.index) {
+card1.classList.add('matched');
+card2.classList.add('matched');
+this.checkWin();
+} else {
+card1.classList.remove('flipped');
+card2.classList.remove('flipped');
+card1.style.color = 'transparent';
+card2.style.color = 'transparent';
+}
+this.chosenCards = [];
+}
+
+checkWin() {
+let size = parseInt(this.sizeSelect.value);
+let totalCards = size * size;
+let allMatched = document.querySelectorAll('.card.matched').length === totalCards;
+
+if (allMatched) {
+clearInterval(this.timerInterval);
+this.saveRecord();
+this.fetchCelebrationQuote();
+}
+}
+
+saveRecord() {
+const size = this.sizeSelect.value;
+const currentRecord = localStorage.getItem(`best_score_${size}`);
+const currentTimeStr = this.timerText.innerText;
+
+if (!currentRecord || currentTimeStr < currentRecord) {
+localStorage.setItem(`best_score_${size}`, currentTimeStr);
+this.bestScoreText.innerText = currentTimeStr + ' (Новый рекорд!)';
+}
+}
+
+async fetchCelebrationQuote() {
+try {
+this.quoteBox.innerText = 'Загрузка победной цитаты...';
+const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=ru'));
+if (response.ok) {
+const data = await response.json();
+const json = JSON.parse(data.contents);
+this.quoteBox.innerText = `"${json.quoteText}" — ${json.quoteAuthor || 'Неизвестный'}`;
+} else {
+this.quoteBox.innerText = 'Поздравляем с победой!';
+}
+} catch (error) {
+this.quoteBox.innerText = 'Поздравляем с победой! Не удалось загрузить цитату.';
+}
+}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+const game = new MemoryGame();
+document.getElementById('restart-btn').addEventListener('click', () => game.createBoard());
+document.getElementById('size-select').addEventListener('change', () => game.createBoard());
+game.createBoard();
+});
