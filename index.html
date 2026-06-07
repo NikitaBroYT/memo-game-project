@@ -9,16 +9,35 @@
 <body>
 
     <div class="game-container">
-        <h1>Игра "Найди пару"</h1>
+        <div class="header-row">
+            <h1>Игра "Найди пару"</h1>
+            <button id="theme-toggle" class="btn-small">Темы</button>
+        </div>
         
+        <div class="setup-container">
+            <div class="setup-row">
+                <label for="size-select">Сложность (размер):</label>
+                <select id="size-select">
+                    <option value="4">4 x 4 (16 карт)</option>
+                    <option value="6">6 x 6 (36 карт)</option>
+                </select>
+            </div>
+        </div>
+
         <div class="stats-container">
             <div>Время: <span id="timer">00:00</span></div>
             <div>Ходы: <span id="moves">0</span></div>
         </div>
+
+        <div class="record-container">
+            Лучший результат: <span id="best-score">--:--</span>
+        </div>
         
         <div id="game-board" class="game-board"></div>
 
-        <button id="restart-btn">Начать заново</button>
+        <button id="restart-btn">Начать игру</button>
+
+        <div id="quote-box" class="quote-box"></div>
     </div>
 
     <script src="script.js"></script>
