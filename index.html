@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Игра Найди пару</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="game-container">
         <header>
@@ -18,15 +20,16 @@
         </header>
 
         <div class="status-panel">
-            <div class="status-item">Размер: 
+            <div class="status-item">Размер:
                 <select id="size-select">
                     <option value="4">4 x 4</option>
                     <option value="6">6 x 6</option>
                     <option value="8">8 x 8</option>
                 </select>
             </div>
-            <div class="status-item">Режим: 
-                <button id="hard-mode-btn" class="btn-hard locked" title="Выиграйте 1 любую игру для разблокировки">🔒 Обычный</button>
+            <div class="status-item">Режим:
+                <button id="hard-mode-btn" class="btn-hard locked" title="Выиграйте 1 любую игру для разблокировки">🔒
+                    Обычный</button>
             </div>
         </div>
 
@@ -52,7 +55,7 @@
                 <h2>🛒 Игровой Инвентарь</h2>
                 <button id="close-shop" class="close-btn">&times;</button>
             </div>
-            
+
             <div class="shop-tabs">
                 <button class="tab-btn active" data-target="cards-section">🃏 Наборы карт</button>
                 <button class="tab-btn" data-target="shirts-section">🎨 Рубашки</button>
@@ -106,4 +109,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

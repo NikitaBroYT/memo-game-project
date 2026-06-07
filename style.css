@@ -34,16 +34,18 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 10px; /* Уменьшил паддинг, чтобы игра лучше влезала */
+    padding: 10px;
+    /* Уменьшил паддинг, чтобы игра лучше влезала */
 }
 
 .game-container {
     background: var(--container-bg);
     padding: 20px;
     border-radius: var(--border-radius);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 520px; /* Оптимальный размер, чтобы всё было компактно */
+    max-width: 520px;
+    /* Оптимальный размер, чтобы всё было компактно */
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -82,7 +84,10 @@ header {
     width: 100%;
     margin-top: 10px;
 }
-.btn-primary:hover { background: var(--primary-hover); }
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
 
 .btn-icon {
     background: transparent;
@@ -96,7 +101,7 @@ header {
 .status-panel {
     display: flex;
     justify-content: space-between;
-    background: rgba(0,0,0,0.05);
+    background: rgba(0, 0, 0, 0.05);
     padding: 8px;
     border-radius: 8px;
     margin-bottom: 12px;
@@ -127,8 +132,16 @@ select {
     font-weight: bold;
     cursor: pointer;
 }
-.btn-hard.locked { background: #bdc3c7; cursor: not-allowed; }
-.btn-hard.active { background: #d35400; animation: pulse 1.5s infinite; }
+
+.btn-hard.locked {
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.btn-hard.active {
+    background: #d35400;
+    animation: pulse 1.5s infinite;
+}
 
 .stats-grid {
     display: grid;
@@ -138,14 +151,15 @@ select {
 }
 
 .stat-box {
-    background: rgba(0,0,0,0.03);
+    background: rgba(0, 0, 0, 0.03);
     padding: 8px;
     border-radius: 8px;
     font-weight: bold;
     font-size: 14px;
 }
 
-#time-limit, #moves-limit {
+#time-limit,
+#moves-limit {
     color: var(--error-color);
     font-size: 11px;
     display: block;
@@ -160,7 +174,10 @@ select {
     transform: scale(0);
     transition: transform 0.2s;
 }
-.combo-banner.show { transform: scale(1.1); }
+
+.combo-banner.show {
+    transform: scale(1.1);
+}
 
 /* ИСПРАВЛЕННАЯ СЕТКА И АВТО-МАСШТАБ ПОЛЯ */
 .board {
@@ -182,14 +199,16 @@ select {
     font-weight: bold;
     cursor: pointer;
     user-select: none;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
     transform: rotateY(0deg);
     transition: transform 0.3s, background-color 0.2s, font-size 0.2s;
     width: 100%;
     height: 100%;
 }
 
-.card.red-pack { background-color: var(--card-back-red); }
+.card.red-pack {
+    background-color: var(--card-back-red);
+}
 
 .card.flipped {
     transform: rotateY(180deg);
@@ -203,23 +222,60 @@ select {
     cursor: default;
 }
 
-.card.shake { animation: shake 0.4s ease-in-out; background-color: #ffcccc; }
-.card.pulse { animation: successPulse 0.4s ease-in-out; }
+.card.shake {
+    animation: shake 0.4s ease-in-out;
+    background-color: #ffcccc;
+}
+
+.card.pulse {
+    animation: successPulse 0.4s ease-in-out;
+}
 
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-6px); }
-    40%, 80% { transform: translateX(6px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20%,
+    60% {
+        transform: translateX(-6px);
+    }
+
+    40%,
+    80% {
+        transform: translateX(6px);
+    }
 }
+
 @keyframes successPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
+
 @keyframes pulse {
-    0% { opacity: 0.8; }
-    50% { opacity: 1; transform: scale(1.02); }
-    100% { opacity: 0.8; }
+    0% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+
+    100% {
+        opacity: 0.8;
+    }
 }
 
 .quote-container {
@@ -233,12 +289,20 @@ select {
 /* Стили модалки инвентаря */
 .modal {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7);
-    display: flex; justify-content: center; align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 100;
 }
-.modal.hidden { display: none; }
+
+.modal.hidden {
+    display: none;
+}
 
 .modal-content {
     background: var(--container-bg);
@@ -250,58 +314,158 @@ select {
 }
 
 .modal-header {
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
 }
 
-.close-btn { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--text-color); }
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--text-color);
+}
 
 .shop-tabs {
-    display: flex; gap: 10px; margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .tab-btn {
-    flex: 1; padding: 10px; border: none; background: rgba(0,0,0,0.05);
-    border-radius: 8px; cursor: pointer; font-weight: bold; color: var(--text-color);
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--text-color);
 }
-.tab-btn.active { background: #e67e22; color: white; }
+
+.tab-btn.active {
+    background: #e67e22;
+    color: white;
+}
 
 .shop-viewport {
-    width: 100%; overflow-x: auto; scroll-behavior: smooth;
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
     padding-bottom: 15px;
 }
-.shop-viewport::-webkit-scrollbar { display: none; }
+
+.shop-viewport::-webkit-scrollbar {
+    display: none;
+}
 
 .shop-track {
-    display: flex; gap: 40px; width: max-content;
+    display: flex;
+    gap: 40px;
+    width: max-content;
 }
 
-.shop-section { width: 450px; }
-.shop-section h3 { text-align: left; margin-bottom: 10px; font-size: 16px; opacity: 0.8; }
+.shop-section {
+    width: 450px;
+}
 
-.items-row { display: flex; gap: 15px; }
+.shop-section h3 {
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.items-row {
+    display: flex;
+    gap: 15px;
+}
 
 .shop-item {
-    background: rgba(0,0,0,0.03); border: 3px solid transparent;
-    padding: 15px; border-radius: 12px; width: 130px; text-align: center;
-    cursor: pointer; position: relative;
+    background: rgba(0, 0, 0, 0.03);
+    border: 3px solid transparent;
+    padding: 15px;
+    border-radius: 12px;
+    width: 130px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
 }
-.shop-item:hover { background: rgba(0,0,0,0.06); }
-.shop-item.active { border-color: #e67e22; background: rgba(230,126,34,0.1); }
-.shop-item.locked { opacity: 0.6; cursor: not-allowed; }
 
-.item-preview { font-size: 28px; height: 50px; display: flex; justify-content: center; align-items: center; }
-.shirt-preview { width: 40px; height: 50px; border-radius: 6px; margin: 0 auto; }
-.blue-shirt { background: var(--primary-color); }
-.red-shirt { background: var(--card-back-red); color: white; font-size: 14px; }
+.shop-item:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
 
-.item-name { font-size: 12px; font-weight: bold; margin: 8px 0; height: 32px; overflow: hidden; }
-.item-status { font-size: 11px; color: #7f8c8d; font-weight: 600; }
-.shop-item.active .item-status { color: #e67e22; }
+.shop-item.active {
+    border-color: #e67e22;
+    background: rgba(230, 126, 34, 0.1);
+}
+
+.shop-item.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.item-preview {
+    font-size: 28px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shirt-preview {
+    width: 40px;
+    height: 50px;
+    border-radius: 6px;
+    margin: 0 auto;
+}
+
+.blue-shirt {
+    background: var(--primary-color);
+}
+
+.red-shirt {
+    background: var(--card-back-red);
+    color: white;
+    font-size: 14px;
+}
+
+.item-name {
+    font-size: 12px;
+    font-weight: bold;
+    margin: 8px 0;
+    height: 32px;
+    overflow: hidden;
+}
+
+.item-status {
+    font-size: 11px;
+    color: #7f8c8d;
+    font-weight: 600;
+}
+
+.shop-item.active .item-status {
+    color: #e67e22;
+}
 
 .shop-scrollbar-container {
-    width: 100%; height: 6px; background: rgba(0,0,0,0.05); border-radius: 3px; position: relative; margin-top: 5px;
+    width: 100%;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+    position: relative;
+    margin-top: 5px;
 }
+
 .shop-scrollbar-thumb {
-    width: 50%; height: 100%; background: #e67e22; border-radius: 3px; position: absolute; left: 0; transition: left 0.2s;
+    width: 50%;
+    height: 100%;
+    background: #e67e22;
+    border-radius: 3px;
+    position: absolute;
+    left: 0;
+    transition: left 0.2s;
 }

@@ -8,7 +8,7 @@ class MemoryGame {
 
         this.currentPack = localStorage.getItem('selected_pack') || 'emoji';
         this.currentShirt = localStorage.getItem('selected_shirt') || 'blue';
-        
+
         this.board = document.getElementById('game-board');
         this.sizeSelect = document.getElementById('size-select');
         this.timerText = document.getElementById('timer');
@@ -16,7 +16,7 @@ class MemoryGame {
         this.bestScoreText = document.getElementById('best-score');
         this.quoteBox = document.getElementById('quote-box');
         this.comboText = document.getElementById('combo-text');
-        
+
         this.timeLimitText = document.getElementById('time-limit');
         this.movesLimitText = document.getElementById('moves-limit');
         this.hardModeBtn = document.getElementById('hard-mode-btn');
@@ -26,7 +26,7 @@ class MemoryGame {
         this.seconds = 0;
         this.timerInterval = null;
         this.isGameStarted = false;
-        
+
         this.comboCount = 0;
         this.isSoundEnabled = localStorage.getItem('sound_enabled') === 'true';
         this.isHardModeUnlocked = localStorage.getItem('hard_mode_unlocked') === 'true';
@@ -72,13 +72,13 @@ class MemoryGame {
 
             oscillator.type = type;
             oscillator.frequency.value = frequency;
-            
+
             gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
 
             oscillator.connect(gainNode);
             gainNode.connect(audioCtx.destination);
-            
+
             oscillator.start();
             oscillator.stop(audioCtx.currentTime + duration);
         } catch (e) { console.log("Звук заблокирован"); }
@@ -99,7 +99,7 @@ class MemoryGame {
             this.hardModeBtn.innerText = 'Обычный';
             this.hardModeBtn.title = 'Включить хардмод';
         }
-        
+
         this.hardModeBtn.addEventListener('click', () => {
             if (!this.isHardModeUnlocked) return;
             this.isHardModeActive = !this.isHardModeActive;
@@ -115,9 +115,9 @@ class MemoryGame {
     }
 
     getHardModeLimits(size) {
-        if (size === 4) return { time: 45, moves: 25 }; 
+        if (size === 4) return { time: 45, moves: 25 };
         if (size === 6) return { time: 150, moves: 75 };
-        return { time: 300, moves: 160 }; 
+        return { time: 300, moves: 160 };
     }
 
     initShop() {
@@ -144,12 +144,12 @@ class MemoryGame {
                 }
             });
         }
-        
+
         if (closeBtn && modal) {
             closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
         }
         if (modal) {
-            modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.add('hidden'); });
+            modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.add('hidden'); });
         }
 
         if (viewport) {
@@ -162,7 +162,7 @@ class MemoryGame {
 
             viewport.addEventListener('scroll', () => {
                 this.updateShopScrollbar();
-                
+
                 const tabs = document.querySelectorAll('.tab-btn');
                 const cardsSection = document.getElementById('cards-section');
                 if (cardsSection && tabs.length >= 2) {
@@ -181,7 +181,7 @@ class MemoryGame {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 e.target.classList.add('active');
-                
+
                 const target = document.getElementById(e.target.dataset.target);
                 if (target && viewport) {
                     const targetScrollLeft = e.target.dataset.target === 'cards-section' ? 0 : target.offsetLeft - 25;
@@ -205,12 +205,12 @@ class MemoryGame {
                 if (!isDragging) return;
                 let maxLeft = container.offsetWidth - thumb.offsetWidth;
                 let left = e.pageX - startX;
-                
+
                 if (left < 0) left = 0;
                 if (left > maxLeft) left = maxLeft;
-                
+
                 thumb.style.left = left + 'px';
-                
+
                 let scrollPercent = left / maxLeft;
                 let maxScroll = viewport.scrollWidth - viewport.clientWidth;
                 viewport.scrollLeft = scrollPercent * maxScroll;
@@ -227,9 +227,9 @@ class MemoryGame {
         document.querySelectorAll('.shop-item').forEach(item => {
             item.addEventListener('click', () => {
                 if (item.classList.contains('locked')) return;
-                
+
                 this.playSystemSound('click');
-                
+
                 const type = item.dataset.type;
                 const id = item.dataset.id;
 
@@ -247,7 +247,7 @@ class MemoryGame {
                 });
                 item.classList.add('active');
                 item.querySelector('.item-status').innerText = 'Выбрано';
-                
+
                 this.createBoard();
             });
         });
@@ -358,10 +358,10 @@ class MemoryGame {
             card.dataset.value = gameValues[i];
             card.dataset.index = i;
             card.innerText = gameValues[i];
-            
+
             // Скрываем контент до flip
-            card.style.fontSize = '0px'; 
-            
+            card.style.fontSize = '0px';
+
             card.addEventListener('click', (e) => this.flipCard(e.target));
             this.board.appendChild(card);
         }
@@ -379,17 +379,17 @@ class MemoryGame {
 
         this.playSystemSound('flip');
         cardElement.classList.add('flipped');
-        
+
         let size = parseInt(this.sizeSelect.value);
         // Динамический размер шрифта для того, чтобы всё влезло
-        cardElement.style.fontSize = size >= 8 ? '16px' : (size === 6 ? '24px' : '32px'); 
-        
+        cardElement.style.fontSize = size >= 8 ? '16px' : (size === 6 ? '24px' : '32px');
+
         this.chosenCards.push(cardElement);
 
         if (this.chosenCards.length === 2) {
             this.moves++;
             if (this.movesText) this.movesText.innerText = this.moves;
-            
+
             if (this.isHardModeActive) {
                 let limits = this.getHardModeLimits(size);
                 if (this.moves > limits.moves) {
@@ -407,7 +407,7 @@ class MemoryGame {
         if (card1.dataset.value === card2.dataset.value && card1.dataset.index !== card2.dataset.index) {
             card1.classList.add('matched', 'pulse');
             card2.classList.add('matched', 'pulse');
-            
+
             this.comboCount++;
             if (this.comboCount >= 2) {
                 if (this.comboText) {
@@ -450,7 +450,7 @@ class MemoryGame {
 
         if (allMatched) {
             clearInterval(this.timerInterval);
-            
+
             if (!this.isHardModeUnlocked) {
                 this.isHardModeUnlocked = true;
                 localStorage.setItem('hard_mode_unlocked', 'true');
@@ -515,9 +515,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const game = new MemoryGame();
     const restartBtn = document.getElementById("restart-btn");
     const sizeSelect = document.getElementById("size-select");
-    
+
     if (restartBtn) restartBtn.addEventListener("click", () => game.createBoard());
     if (sizeSelect) sizeSelect.addEventListener("change", () => game.createBoard());
-    
+
     game.createBoard();
 });
